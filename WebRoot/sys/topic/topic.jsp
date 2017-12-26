@@ -62,7 +62,7 @@
 
 				<td>	<a href="${pageContext.request.contextPath}/topic?method=show&id=${topic.id}&zhou=${zhou}"  class="FunctionButton">更新</a>
 					<a href="${pageContext.request.contextPath}/topic?method=delete&id=${topic.id}&zhou=${zhou}" onClick="return delConfirm();"class="FunctionButton">删除</a>
-					<a href="${pageContext.request.contextPath}/topic?method=delete&id=${topic.id}&zhou=${zhou}" onClick="return delConfirm();"class="FunctionButton">查看作业</a>
+					<a href="${pageContext.request.contextPath}/user?method=list&chapterid=${topic.id}" class="FunctionButton">查看作业</a>
 				</td>
 				
 			</tr>

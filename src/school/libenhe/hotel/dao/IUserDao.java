@@ -1,24 +1,23 @@
 package school.libenhe.hotel.dao;
 
-import school.libenhe.hotel.entity.User;
+import school.libenhe.hotel.entity.Task;
 import school.libenhe.hotel.utils.PageBean;
 
 import java.util.List;
 
 public interface IUserDao {
-    void getAll(PageBean<User> pageBean);
+    void getAll(PageBean<Task> pageBean);
 
-    void add(User user);
+    void add(Task user);
 
     void delete(int i);
 
-    List<User> query(String name);
+    List<Task> query(String name);
 
-    User findById(int i);
+    Task findById(int i);
 
-    void updata(User user);
+    void updata(Task user);
 
-    List<User> query(String username, String password);
+    List<Task> query(String username, String password);
 
-    void updatapassword(User user);
 }

@@ -43,26 +43,9 @@
         <thead>
             <tr align="center" valign="middle" id="TableTitle">
 				<td></td>
-				<td>姓名</td>
-				<td>性别</td>
-				<td>职工号</td>
-				<td>民族</td>
-                <td>身份证号</td>
-				<td>住址</td>
-				<td>联系电话</td>
-				<td>邮箱</td>
-				<td>出生日期</td>
-				<td>参加工作日期</td>
-				<td>所学专业</td>
-				<td>毕业院校</td>
-				<td>职称</td>
-				<td>学历</td>
-				<td>学位</td>
-				<td>外语程度</td>
-				<td>所属部门</td>
-				<td>教研室</td>
-				<td>研究放向</td>
-				<td>备注</td>
+				<td>作业名称</td>
+				<td>类名</td>
+				<td>文件</td>
 				<td>操作</td>
 			</tr>
 		</thead>	
@@ -71,28 +54,11 @@
 		<c:forEach items="${requestScope.list}" var="user" varStatus="vs">
 			<tr class="TableDetail1">
 				<td>${vs.count }</td>
-				<td>${user.name }</td>
-				<td>${user.sex }</td>
-				<td>${user.number }</td>
-				<td>${user.minzhu }</td>
-				<td>${user.cno }</td>
-				<td>${user.adds }</td>
-				<td>${user.telephone }</td>
-				<td>${user.emil }</td>
-				<td>${user.birth }</td>
-				<td>${user.cjgzdate }</td>
-				<td>${user.zhuanye }</td>
-				<td>${user.yuanxiao }</td>
-				<td>${user.zhicheng }</td>
-				<td>${user.xueli }</td>
-				<td>${user.xuewei }</td>
-				<td>${user.waiyu }</td>
-				<td>${user.dept }</td>
-				<td>${user.jianyanshi }</td>
-				<td>${user.yjfx }</td>
-				<td>${user.beizhu }</td>
-				<td>	<a href="${pageContext.request.contextPath}/user?method=show&id=${user.id}"  class="FunctionButton">更新</a>
-					<a href="${pageContext.request.contextPath}/user?method=delete&id=${user.id}" onClick="return delConfirm();"class="FunctionButton">删除</a>				</td>
+				<td>${user.name}</td>
+				<td>${user.classname}</td>
+				<td>${user.path}</td>
+				<td>	<a href="${pageContext.request.contextPath}/user?method=show&id=${user.id}&chapterid=${chapterid}"  class="FunctionButton">更新</a>
+					<a href="${pageContext.request.contextPath}/user?method=delete&id=${user.id}" onClick="return delConfirm();"class="FunctionButton">删除</a></td>
 			</tr>
         
 		</c:forEach>
@@ -101,12 +67,12 @@
 	
    <!-- 其他功能超链接 -->
 	<div id="TableTail" align="center">
-		<div class="FunctionButton"><a href="${pageContext.request.contextPath }/user?method=showUser">添加</a></div>
+		<div class="FunctionButton"><a href="${pageContext.request.contextPath }/user?method=showUser&chapterid=${chapterid}">添加</a></div>
     	当前${requestScope.pageBean.currentPage }/${requestScope.pageBean.totalPage }页     &nbsp;&nbsp;
-		<a href="${pageContext.request.contextPath }/user?method=list&currentPage=1">首页</a>
-		<a href="${pageContext.request.contextPath }/user?method=list&currentPage=${requestScope.pageBean.currentPage-1}">上一页 </a>
-		<a href="${pageContext.request.contextPath }/user?method=list&currentPage=${requestScope.pageBean.currentPage+1}">下一页 </a>
-		<a href="${pageContext.request.contextPath }/user?method=list&currentPage=${requestScope.pageBean.totalPage}">末页</a>
+		<a href="${pageContext.request.contextPath }/user?method=list&currentPage=1&chapterid=${chapterid}">首页</a>
+		<a href="${pageContext.request.contextPath }/user?method=list&currentPage=${requestScope.pageBean.currentPage-1}&chapterid=${chapterid}">上一页 </a>
+		<a href="${pageContext.request.contextPath }/user?method=list&currentPage=${requestScope.pageBean.currentPage+1}&chapterid=${chapterid}">下一页 </a>
+		<a href="${pageContext.request.contextPath }/user?method=list&currentPage=${requestScope.pageBean.totalPage}&chapterid=${chapterid}">末页</a>
     </div> 
 </div>
 </body>

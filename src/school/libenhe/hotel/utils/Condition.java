@@ -6,6 +6,7 @@ package school.libenhe.hotel.utils;
  */
 public class Condition {
 
+	private String chapterid;
 	private String foodName;
 	private int foodType_id;
 
@@ -23,13 +24,6 @@ public class Condition {
 		this.name = name;
 	}
 
-	public String getFoodName() {
-		return foodName;
-	}
-
-	public void setFoodName(String foodName) {
-		this.foodName = foodName;
-	}
 
 	public int getFoodType_id() {
 		return foodType_id;
@@ -39,13 +33,12 @@ public class Condition {
 		this.foodType_id = foodType_id;
 	}
 
-	@Override
-	public String toString() {
-		return "Condition{" +
-				"foodName='" + foodName + '\'' +
-				", foodType_id=" + foodType_id +
-				", name='" + name + '\'' +
-				'}';
+	public String getChapterid() {
+		return chapterid;
+	}
+
+	public void setChapterid(String chapterid) {
+		this.chapterid = chapterid;
 	}
 
 	public String getIssh() {
@@ -78,5 +71,13 @@ public class Condition {
 
 	public void setZhou(String zhou) {
 		this.zhou = zhou;
+	}
+
+	public String getFoodName() {
+		return foodName;
+	}
+
+	public void setFoodName(String foodName) {
+		this.foodName = foodName;
 	}
 }

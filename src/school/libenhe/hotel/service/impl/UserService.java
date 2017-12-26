@@ -1,7 +1,7 @@
 package school.libenhe.hotel.service.impl;
 
 import school.libenhe.hotel.dao.IUserDao;
-import school.libenhe.hotel.entity.User;
+import school.libenhe.hotel.entity.Task;
 import school.libenhe.hotel.service.IUserService;
 import school.libenhe.hotel.utils.PageBean;
 
@@ -13,22 +13,22 @@ public class UserService implements IUserService {
 
     IUserDao userDao = getInstance("userDao", IUserDao.class);
     @Override
-    public void getAll(PageBean<User> pageBean) {
+    public void getAll(PageBean<Task> pageBean) {
         userDao.getAll(pageBean);
     }
 
     @Override
-    public List<User> query() {
+    public List<Task> query() {
         return null;
     }
 
     @Override
-    public List<User> query(String name) {
+    public List<Task> query(String name) {
         return userDao.query(name);
     }
 
     @Override
-    public void add(User user) {
+    public void add(Task user) {
 
         userDao.add(user);
     }
@@ -39,22 +39,19 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User findById(int i) {
+    public Task findById(int i) {
         return userDao.findById(i);
     }
 
     @Override
-    public void updata(User user) {
+    public void updata(Task user) {
         userDao.updata(user);
     }
 
     @Override
-    public List<User> query(String username, String password) {
+    public List<Task> query(String username, String password) {
         return userDao.query(username,password);
     }
 
-    @Override
-    public void updatapassword(User user) {
-        userDao.updatapassword(user);
-    }
+    
 }

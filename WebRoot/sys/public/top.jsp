@@ -1,5 +1,4 @@
-﻿<%@ page language="java" import="school.libenhe.hotel.entity.User" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+﻿<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
 String usernamr = request.getSession().getAttribute("username").toString();
 

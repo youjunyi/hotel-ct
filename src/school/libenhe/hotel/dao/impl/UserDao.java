@@ -5,7 +5,7 @@ import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 import school.libenhe.hotel.dao.IUserDao;
-import school.libenhe.hotel.entity.User;
+import school.libenhe.hotel.entity.Task;
 import school.libenhe.hotel.utils.Condition;
 import school.libenhe.hotel.utils.JdbcUtils;
 import school.libenhe.hotel.utils.PageBean;
@@ -16,7 +16,7 @@ import java.util.List;
 public class UserDao implements IUserDao {
     private QueryRunner qr = JdbcUtils.getQueryRunner();
     @Override
-    public void getAll(PageBean<User> pageBean) {
+    public void getAll(PageBean<Task> pageBean) {
         int totalCount = this.getTotalCount(pageBean);
         pageBean.setTotalCount(totalCount);
 
@@ -41,15 +41,15 @@ public class UserDao implements IUserDao {
         sb.append(" f.* ");
 
         sb.append(" FROM ");
-        sb.append("     	user f");
+        sb.append("     	task f");
         sb.append(" WHERE 	1=1 ");
 
         // 判断
         if (condition != null) {
-            String name = condition.getFoodName();
-            if (name != null && !name.isEmpty()) {
-                sb.append("  AND f.name LIKE ? ");
-                list.add("%" + name + "%");
+            String chapterid = condition.getChapterid();
+            if (chapterid != null && !chapterid.isEmpty()) {
+                sb.append("  AND f.chapterid = ? ");
+                list.add(chapterid);
             }
             
         }
@@ -59,8 +59,8 @@ public class UserDao implements IUserDao {
         try {
             // 根据当前页，查询当前页数据(一页数据)
             if (index >= 0) {
-                List<User> pageData = qr.query(sb.toString(),
-                        new BeanListHandler<User>(User.class), list.toArray());
+                List<Task> pageData = qr.query(sb.toString(),
+                        new BeanListHandler<Task>(Task.class), list.toArray());
                 // 设置到pb对象中
                 pageBean.setPageData(pageData);
             }
@@ -75,7 +75,7 @@ public class UserDao implements IUserDao {
 
     @Override
     public void delete(int i) {
-        String sql = "DELETE FROM user WHERE id=?";
+        String sql = "DELETE FROM task WHERE id=?";
         try {
             qr.update(sql, i);
         } catch (Exception e) {
@@ -84,10 +84,10 @@ public class UserDao implements IUserDao {
     }
 
     @Override
-    public List<User> query(String name) {
-        String sql = "SELECT * FROM user WHERE name LIKE ?";
+    public List<Task> query(String name) {
+        String sql = "SELECT * FROM task WHERE name LIKE ?";
         try {
-            return qr.query(sql, new BeanListHandler<User>(User.class), "%"
+            return qr.query(sql, new BeanListHandler<Task>(Task.class), "%"
                     + name + "%");
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -95,20 +95,20 @@ public class UserDao implements IUserDao {
     }
 
     @Override
-    public User findById(int i) {
-         	String sql = "SELECT * FROM user where id =?";
+    public Task findById(int i) {
+         	String sql = "SELECT * FROM task where id =?";
         try {
-            return qr.query(sql, new BeanHandler<User>(User.class), i);
+            return qr.query(sql, new BeanHandler<Task>(Task.class), i);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public void add(User user) {
-        String sql = " INSERT user(name,number,password,sex,minzhu,cno,adds,telephone,emil,birth,cjgzdate,zhuanye,yuanxiao,zhicheng,xueli,waiyu,dept,jianyanshi,yjfx,beizhu,xuewei) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    public void add(Task task) {
+        String sql = " INSERT task(name,classname,path,chapterid) VALUES(?,?,?,?)";
         try {
-            qr.update(sql,user.getName(),user.getNumber(),"000000",user.getSex(),user.getMinzhu(),user.getCno(),user.getAdds(),user.getTelephone(),user.getEmil(),user.getBirth(),user.getCjgzdate(),user.getZhuanye(),user.getYuanxiao(),user.getZhicheng(),user.getXueli(),user.getWaiyu(),user.getDept(),user.getJianyanshi(),user.getYjfx(),user.getBeizhu(),user.getXuewei());
+            qr.update(sql,task.getName(),task.getClassname(),task.getPath(),task.getChapterid());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -119,51 +119,43 @@ public class UserDao implements IUserDao {
 
 
     @Override
-    public void updata(User user) {
-        String sql = "UPDATE user SET name=?,number=?,sex=?,minzhu=?,cno=?,adds=?,telephone=?,emil=?,birth=?,cjgzdate=?,zhuanye=?,yuanxiao=?,zhicheng=?,xueli=?,waiyu=?,dept=?,jianyanshi=?,yjfx=?,beizhu=?,xuewei=? WHERE id =?";
+    public void updata(Task task) {
+        String sql = "UPDATE task SET name=? WHERE id =?";
         try {
-            qr.update(sql, user.getName(),user.getNumber(),user.getSex(),user.getMinzhu(),user.getCno(),user.getAdds(),user.getTelephone(),user.getEmil(),user.getBirth(),user.getCjgzdate(),user.getZhuanye(),user.getYuanxiao(),user.getZhicheng(),user.getXueli(),user.getWaiyu(),user.getDept(),user.getJianyanshi(),user.getYjfx(),user.getBeizhu(),user.getXuewei(),user.getId());
+            qr.update(sql, task.getName(),task.getId());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public List<User> query(String username, String password) {
+    public List<Task> query(String username, String password) {
         String sql = "SELECT * FROM user WHERE number=? and password=?";
         try {
-            return qr.query(sql, new BeanListHandler<User>(User.class),username,password);
+            return qr.query(sql, new BeanListHandler<Task>(Task.class),username,password);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    @Override
-    public void updatapassword(User user) {
-        String sql = "UPDATE user SET password=? WHERE id =?";
-        try {
-            qr.update(sql, user.getPassword(),user.getId());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+  
 
-    public int getTotalCount(PageBean<User> pb) {
+    public int getTotalCount(PageBean<Task> pb) {
         StringBuilder sb = new StringBuilder();
         List<Object> list = new ArrayList<Object>();
         sb.append(" SELECT");
         sb.append("   count(*) ");
         sb.append(" FROM ");
-        sb.append("     	food f ");
+        sb.append("     	task f ");
         sb.append(" WHERE 	1=1 ");
 
         Condition condition = pb.getCondition();
         // 判断
         if (condition != null) {
-            String name = condition.getFoodName();
-            if (name != null && !name.isEmpty()) {
-                sb.append("  AND f.name LIKE ? ");
-                list.add("%" + name + "%");
+            String chapterid = condition.getChapterid();
+            if (chapterid != null && !chapterid.isEmpty()) {
+                sb.append("  AND f.chapterid = ? ");
+                list.add(chapterid);
             }
 
            

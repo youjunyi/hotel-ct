@@ -15,6 +15,39 @@
 	<script type="text/javascript" src="${pageContext.request.contextPath }/sys/style/js/My97DatePicker/WdatePicker.js"></script>
 <link href="${pageContext.request.contextPath }/sys/style/css/common_style_blue.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/sys/style/css/index_1.css" />
+	<script type="text/javascript">
+		$(function () {
+			$(".red").change(function () {
+				var v = $(this).val();
+            	if(v==1){
+                    $(".dm").show();
+                    $(".file").hide();
+                    $(".dmd").show()
+				}
+				if (v ==2){
+                    $(".file").show();
+                    $(".dm").hide();
+                    $(".dmd").hide()
+				}
+			})
+			$("#byyx").click(function () {
+			    var url = "${pageContext.request.contextPath }/user?method=ajax"
+				var dm = $("#dm").val();
+			    var chapterid = "${chapterid}";
+			    var classname = $("#classname").val();
+                $.ajax({
+                    type:'post',
+                    url:url,
+                    data:{"dm":dm,"chapterid":chapterid,"classname":classname},
+                    cache:false,
+                    success:function(obj){
+						$("#jg").val(obj);
+                    }
+                })
+            })
+        })
+		
+	</script>
 </head>
 <body>
 
@@ -47,127 +80,32 @@
             <div class="ItemBlock">
 				<div class="ItemBlock2">
 					<table cellpadding="0" cellspacing="0" class="mainForm">
-          <%--          <tr>
-							<td width="80px">菜系</td>
-							<td>
-                            <select name="foodType_id" style="width:80px">
-	                            <c:forEach items="${requestScope.foodtypes}" var="type">
-			   						<option value="${type.id}">${type.typeName }</option>
-			   					</c:forEach>
-                            </select>
-                            </td>
-						</tr>--%>
+       
+						<input type="text" name="chapterid" value="${chapterid}">
 						<tr>
-							<td width="80px">姓名</td>
-							<td><input type="text" name="name" class="InputStyle" value=""/> *</td>
+							<td width="80px">名称</td>
+							<td><input type="text" name="name" class="InputStyle" value=""/></td>
 						</tr>
-						<tr>
-							<td>性别</td>
-							<td>
-								<select name="sex" style="width:80px">
-									<option value="男">男</option>
-								<option value="女">女</option>
-							</select>
-							</td>
+			  			<tr>
+				  			<td width="80px">类名</td>
+				  			<td><input type="text" name="classname" id="classname" class="InputStyle" value=""/></td>
+			  			</tr>
+			  			<tr>
+							<td><input type="radio" name="rad" value="1" class="red" checked  />编写 <input type="radio" class="red" name="rad" value="2"/> 上传 </td>
 						</tr>
-                        <tr>
-							<td>职工号</td>
-							<td><input type="text" name="number" class="InputStyle" value=""/> *</td>
-						</tr>
-			  <tr>
-				  <td>民族</td>
-				  <td><input type="text" name="minzhu" class="InputStyle" value=""/> *</td>
-			  </tr>
-			  <tr>
-				  <td>身份证号</td>
-				  <td><input type="text" name="cno" class="InputStyle" value=""/> *</td>
-			  </tr>
-			  <tr>
-				  <td>住址</td>
-				  <td><input type="text" name="adds" class="InputStyle" value=""/> *</td>
-			  </tr>
-			  <tr>
-				  <td>联系电话</td>
-				  <td><input type="text" name="telephone" class="InputStyle" value=""/> *</td>
-			  </tr><tr>
-			  <td>邮箱</td>
-			  <td><input type="text" name="emil" class="InputStyle" value=""/> *</td>
-		  </tr><tr>
-			  <td>出生日期</td>
-			  <td><input type="text"   onClick="WdatePicker({el:this,dateFmt:'yyyy-MM-dd'})" name="birth" class="InputStyle Wdate" value=""/> *</td>
-		  </tr><tr>
-			  <td>参加工作日期</td>
-			  <td><input type="text"   onClick="WdatePicker({el:this,dateFmt:'yyyy-MM-dd'})" name="cjgzdate" class="InputStyle Wdate" value=""/> *</td>
-		  </tr><tr>
-			  <td>所学专业</td>
-			  <td><input type="text" name="zhuanye" class="InputStyle" value=""/> *</td>
-		  </tr><tr>
-			  <td>毕业院校</td>
-			  <td><input type="text" name="yuanxiao" class="InputStyle" value=""/> *</td>
-		  </tr>
-			  <tr>
-				  <td>职称</td>
-				  <td>
-					  <select name="zhicheng" style="width:80px">
-					  		<option value="教授">教授</option>
-					  		<option value="副教授">副教授</option>
-						  <option value="讲师">讲师</option>
-						  <option value="助教">助教</option>
-				  </select>
-				  </td>
-			  </tr>
-			  <tr>
-				  <td>学历</td>
-				  <td><select name="xueli" style="width:80px">
-					  <option value="专科">专科</option>
-					  <option value="本科">本科</option>
-					  <option value="硕士研究生">硕士研究生</option>
-					  <option value="博士研究生">博士研究生</option>
-				  </select></td>
-			  </tr>
-			  <tr>
-				  <td>学位</td>
-				  <td><select name="xuewei" style="width:80px">
-					  <option value="学士">学士</option>
-					  <option value="硕士">硕士</option>
-					  <option value="博士">博士</option>
-				  </select></td>
-			  </tr><tr>
-			  <td>外语程度</td>
-			  <td><input type="text" name="waiyu" class="InputStyle" value=""/> *</td>
-		  </tr><tr>
-			  <td>所属部门</td>
-			  <td>
-				  <select name="dept" style="width:80px">
-					  <option value="信息科学与电气工程学院">信息科学与电气工程学院</option>
-					  <option value="土木学院">土木学院</option>
-					  <option value="机械学院">机械学院</option>
-					  <option value="汽车学院">汽车学院</option>
-					  <option value="航空学院">航空学院</option>
-					  <option value="经管学院">经管学院</option>
-					  <option value="轨道学院">轨道学院</option>
-					  <option value="理学院">理学院</option>
-					  <option value="交通与物流工程学院">交通与物流工程学院</option>
-			  </select>
-			  </td>
-		  </tr><tr>
-			  <td>教研室</td>
-			  <td>
-				  <select name="jianyanshi" style="width:80px">
-				  <option value="计算机科学与技术">计算机科学与技术</option>
-				  <option value="信息管理与信息系统">信息管理与信息系统</option>
-				  <option value="电气工程及其自动化">电气工程及其自动化</option>
-				  <option value="电子信息工程">电子信息工程</option>
-			  </select>
-			  </td>
-		  </tr><tr>
-			  <td>研究放向</td>
-			  <td><input type="text" name="yjfx" class="InputStyle" value=""/> *</td>
-		  </tr>
-						<tr>
-							<td>备注</td>
-							<td><textarea name="beizhu" class="TextareaStyle"></textarea></td>
-						</tr>
+			  			<tr class="dm">
+				  			<td width="80px">代码</td>
+							<td><textarea rows="50" name="dm" cols="110" id="dm"></textarea></td>
+			  			</tr>
+						  <tr class="dm">
+							  <td width="80px">运行结果</td>
+							  <td><textarea rows="20" name="jg" cols="100" id="jg"></textarea></td>
+						  </tr>
+						  <tr class="file" hidden="hidden">
+							  <td width="80px">作业文件上传</td>
+							  <td><input type="file" name="file" class="InputStyle" value=""/></td>
+						  </tr>
+
 						
 					</table>
 				</div>
@@ -181,10 +119,8 @@
 				
 				
 					 <input type="submit" value="添加" class="FunctionButtonInput">
-				
-			
-            
-            <a href="javascript:history.go(-1);" class="FunctionButton">返回</a>
+					<input type="button" value="编译并运行" id="byyx" class="FunctionButtonInput dmd">
+            		<a href="javascript:history.go(-1);" class="FunctionButton">返回</a>
         </div>
 	</form>
 </div>

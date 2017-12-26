@@ -1,25 +1,24 @@
 package school.libenhe.hotel.service;
 
-import school.libenhe.hotel.entity.User;
+import school.libenhe.hotel.entity.Task;
 import school.libenhe.hotel.utils.PageBean;
 
 import java.util.List;
 
 public interface IUserService
 {
-    void getAll(PageBean<User> pageBean);
+    void getAll(PageBean<Task> pageBean);
 
-    List<User> query();
-    List<User> query(String name);
-    void add(User user);
+    List<Task> query();
+    List<Task> query(String name);
+    void add(Task user);
 
     void delete(int i);
 
-    User findById(int i);
+    Task findById(int i);
 
-    void updata(User user);
+    void updata(Task user);
 
-    List<User> query(String username, String password);
+    List<Task> query(String username, String password);
 
-    void updatapassword(User user);
 }
