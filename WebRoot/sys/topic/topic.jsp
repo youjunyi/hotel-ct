@@ -35,11 +35,7 @@
 
 	<!-- 过滤条件 -->
 	<div id="QueryArea">
-		<form action="${pageContext.request.contextPath }/topic" method="post">
-			<input type="hidden" name="method" value="search">
-			<input type="text" name="name" title="" >
-			<input type="submit" value="搜索">
-		</form>
+	
 	</div>
 <!-- 主内容区域（数据列表或表单显示） -->
 <div id="MainArea">

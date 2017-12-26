@@ -81,7 +81,7 @@
 				<div class="ItemBlock2">
 					<table cellpadding="0" cellspacing="0" class="mainForm">
        
-						<input type="text" name="chapterid" value="${chapterid}">
+						<input type="hidden" name="chapterid" value="${chapterid}">
 						<tr>
 							<td width="80px">名称</td>
 							<td><input type="text" name="name" class="InputStyle" value=""/></td>

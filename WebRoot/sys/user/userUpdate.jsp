@@ -66,6 +66,7 @@
               
 						<input type="hidden" name="id" value="${user.id}">
 						<input type="hidden" name="path" value="${user.path}">
+						<input type="hidden" name="chapterid" value="${user.chapterid}">
 						<tr>
 							<td width="80px">名称</td>
 							<td><input type="text" name="name" class="InputStyle" value="${user.name}"/></td>

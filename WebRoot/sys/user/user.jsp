@@ -30,11 +30,7 @@
 
 	<!-- 过滤条件 -->
 	<div id="QueryArea">
-		<form action="${pageContext.request.contextPath }/user" method="post">
-			<input type="hidden" name="method" value="search">
-			<input type="text" name="keyword" title="请输入姓名" >
-			<input type="submit" value="搜索">
-		</form>
+	
 	</div>
 <!-- 主内容区域（数据列表或表单显示） -->
 <div id="MainArea">
@@ -58,7 +54,7 @@
 				<td>${user.classname}</td>
 				<td>${user.path}</td>
 				<td>	<a href="${pageContext.request.contextPath}/user?method=show&id=${user.id}&chapterid=${chapterid}"  class="FunctionButton">更新</a>
-					<a href="${pageContext.request.contextPath}/user?method=delete&id=${user.id}" onClick="return delConfirm();"class="FunctionButton">删除</a></td>
+					<a href="${pageContext.request.contextPath}/user?method=delete&id=${user.id}&chapterid=${chapterid}" onClick="return delConfirm();"class="FunctionButton">删除</a></td>
 			</tr>
         
 		</c:forEach>

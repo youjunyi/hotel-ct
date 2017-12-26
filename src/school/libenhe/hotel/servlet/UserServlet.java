@@ -48,7 +48,7 @@ public class UserServlet extends HttpServlet {
         if ("add".equals(method)) {
             add(request, response);
         } else if ("list".equals(method)) {
-            list(request, response);
+            list(request, response,null);
         } else if ("update".equals(method)) {
             update(request, response);
         } else if ("delete".equals(method)) {
@@ -141,13 +141,14 @@ public class UserServlet extends HttpServlet {
         try {
             FileItemFactory factory = new DiskFileItemFactory();
             ServletFileUpload upload = new ServletFileUpload(factory);
-            upload.setFileSizeMax(10 * 1024 * 1024); // 鍗曚釜鏂囦欢澶у皬闄愬埗
-            upload.setSizeMax(50 * 1024 * 1024); // 鎬绘枃浠跺ぇ灏忛檺鍒?
-            upload.setHeaderEncoding("UTF-8"); // 瀵逛腑鏂囨枃浠剁紪鐮佸鐞?
+            upload.setFileSizeMax(10 * 1024 * 1024);
+            upload.setSizeMax(50 * 1024 * 1024);
+            upload.setHeaderEncoding("UTF-8"); 
+            Task user = new Task();
             String dm  = "";
             if (upload.isMultipartContent(request)) {
 
-                Task user = new Task();
+
                 List<FileItem> list = upload.parseRequest(request);
                 for (FileItem item : list) {
 
@@ -186,7 +187,7 @@ public class UserServlet extends HttpServlet {
             } else {
 
             }
-            list(request, response);
+            list(request, response,String.valueOf(user.getChapterid()));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -219,8 +220,17 @@ public class UserServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             String id = request.getParameter("id");
+            Task byId = service.findById(Long.valueOf(id).intValue());
+            String djavac = "D:/upload/"+byId.getChapterid()+"/"+byId.getPath();
+            File file2 = new File(djavac);
+            if(file2.isFile() && file2.exists()){
+                file2.delete();
+            }else{
+            }
             service.delete(Integer.parseInt(id));
-            list(request, response);
+            String chapterid = request.getParameter("chapterid");
+            request.setAttribute("chapterid",chapterid);
+            list(request, response,chapterid);
         } catch (Exception e) {
             e.printStackTrace();
             uri = "/error/error.jsp";
@@ -301,30 +311,31 @@ public class UserServlet extends HttpServlet {
                             dm = value;
                         }
                         BeanUtils.setProperty(user, name, value);
-                    }else{
+                    }else {
+                        if (rad.equals("2")) {
+                            String fieldName = item.getFieldName();
+                            String path = "D:/upload/" + chapterid + "/";
+                            String name = item.getName();
+                            path = path + name;
+                            System.out.println(path);
+                            File f = new File(path);
+                            File fileParent = f.getParentFile();
+                            if (!fileParent.exists()) {
+                                fileParent.mkdirs();
+                            }
+                            f.createNewFile();
+                            // 全部绝对路径
 
-                        String fieldName = item.getFieldName();
-                        String path = "D:/upload/"+chapterid+"/";
-                        String name = item.getName();
-                        path = path+name;
-                        System.out.println(path);
-                        File f = new File(path);
-                        File fileParent = f.getParentFile();
-                        if(!fileParent.exists()){
-                            fileParent.mkdirs();
+                            BeanUtils
+                                    .setProperty(user, "path", name);
+
+                            // 拼接文件名
+                            // 上传
+                            if (!f.isDirectory()) {
+                                item.write(f);
+                            }
+                            item.delete(); // 删除组件运行时产生的临时文件
                         }
-                        f.createNewFile();
-                        // 全部绝对路径
-
-                        BeanUtils
-                                .setProperty(user, "path",  name);
-
-                        // 拼接文件名
-                        // 上传
-                        if (!f.isDirectory()) {
-                            item.write(f);
-                        }
-                        item.delete(); // 删除组件运行时产生的临时文件
                     }
                 }
 
@@ -355,7 +366,7 @@ public class UserServlet extends HttpServlet {
             } else {
 
             }
-            list(request, response);
+            list(request, response,chapterid);
         } catch (Exception e) {
             e.printStackTrace();
             uri = "/error/error.jsp";
@@ -364,13 +375,19 @@ public class UserServlet extends HttpServlet {
     }
 
 
-    private void list(HttpServletRequest request, HttpServletResponse response)
+    private void list(HttpServletRequest request, HttpServletResponse response,String chapterid)
             throws ServletException, IOException {
 
         try {
 
             String currPage = request.getParameter("currentPage");
-            String chapterid = request.getParameter("chapterid");
+            String chapterid1 = "";
+            if(null!=chapterid && !chapterid.equals("")){
+                chapterid1 = chapterid;
+            } else{
+                chapterid1= request.getParameter("chapterid");
+            }
+
             if (currPage == null || "".equals(currPage.trim())) {
                 currPage = "1";
             }
@@ -379,7 +396,8 @@ public class UserServlet extends HttpServlet {
             PageBean<Task> pageBean = new PageBean<Task>();
             pageBean.setCurrentPage(currentPage);
             Condition condition = new Condition();
-            condition.setChapterid(chapterid);
+            condition.setChapterid(chapterid1);
+            
             pageBean.setCondition(condition);
             service.getAll(pageBean);
 
